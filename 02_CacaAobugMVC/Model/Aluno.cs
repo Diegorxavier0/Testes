@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _02_CacaAobugMVC.Model
 {
-     class Aluno
+     public class Aluno
     {
         //private string nome = string.Empty;//atributo
         ////metódos acessadores
@@ -23,6 +23,8 @@ namespace _02_CacaAobugMVC.Model
         public double Nota1 { get; set; }
         public double Nota2 { get; set; }
         public double nota3 { get; set; }
+
+        public double Media {  get; set; }
 
         public string situacao = string.Empty;
     }

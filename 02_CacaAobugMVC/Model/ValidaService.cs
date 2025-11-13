@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace _02_CacaAobugMVC.Model
 {
-    class ValidaService
+    public class ValidaService
     {
 
         //padrão
