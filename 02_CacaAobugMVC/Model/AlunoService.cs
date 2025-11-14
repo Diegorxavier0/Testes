@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace _02_CacaAobugMVC.Model
 {
-    class AlunoService
+    public class AlunoService
     {
         public double CalcularMedia(double n1, double n2, double n3)
         {
-            return (n1 + n2 + n3) / 3;
+            return Math.Round((n1 + n2 + n3) / 3, 2);
+            //Math.Round arredonda o valor para 2 casas decimais
         }
 
         public string ObterSituacao(double media)
