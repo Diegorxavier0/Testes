@@ -9,9 +9,9 @@ namespace _02_CacaAobugMVC.Controller
 {
     public class AlunoController
     {
-        private readonly ValidaService validaService;
-        private readonly AlunoService alunoService;
-        private readonly List<Aluno> alunos;
+        private readonly ValidaService validaService;//dependência
+        private readonly AlunoService alunoService;//dependência
+        private readonly List<Aluno> alunos;//lista de alunos
 
         public AlunoController()
         {

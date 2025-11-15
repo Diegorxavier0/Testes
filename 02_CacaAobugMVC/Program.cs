@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using _02_CacaAobugMVC.Controller;
+using _02_CacaAobugMVC.Model;
 
 namespace _02_CacaAobugMVC
 {
@@ -10,64 +13,91 @@ namespace _02_CacaAobugMVC
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("*** Passagem de parâmetro por Valor ***");
-            //Passa o conteúdo da variável de origem para a variavel de destino
-            //O método de destino não altera o valor da váriavel do método de origem
-            double valor = 10;
-            if(PassagemParametroValor(valor)) 
-            Console.WriteLine($"Valor do método PassagemParametroValor{valor}");
+            AlunoController controller = new AlunoController();
+            var validacao = controller.GetValidaService(); // obtém a instância do ValidaService do controller
 
-            Console.WriteLine("\n\n*** Passagem de parâmetro por Referência REF ***");
-            //Passa o endereço de memória da variável de origem para a variável de destino
-            //A variável de origem pode ser inicializada
-            //O método de destino pode alterar o valor da variável do método de origem
-            double valor1 = 10;
-            if(PassagemParamentroReferenciaRef(ref valor1))
-                Console.WriteLine($"Valor do método Main-> PassagemParametroReferenciaRef {valor1}");
 
-            Console.WriteLine("\n\n*** Passagem de parâmetro por Referência OUT ***");
-            //Passa o endereço de memória da variável de origem 
-            double valor2;
-            if (PassagemParamentroReferenciaOut(out valor2))
-                Console.WriteLine($"Valor do método Main-> PassagemParametroReferenciaOut {valor2}");
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("==== Sistema de Notas - Caça ao Bug MVC ====");
 
-            Console.WriteLine("\n\n*** Passagem de parâmetro por Referência IN ***");
-            double valor3= 100;
-            if (PassagemParamentroReferenciaIN(in valor3))
-                Console.WriteLine($"Valor do método Main-> PassagemParametroReferenciaIN {valor3}");
+                string nome;
+
+                while (true)
+                {
+                    while (true)
+                    {
+                        Console.Write("Informe o nome do Aluno: ");
+                        nome = Console.ReadLine();
+
+                        if (validacao.ValidarNome(nome, out string msgErro))
+                            break;
+
+                        Console.WriteLine($"Nome Inválido! {msgErro}");
+                    }
+
+                    double nota1 = Program.LerNota("1ª", validacao);
+                    double nota2 = Program.LerNota("2ª", validacao);
+                    double nota3 = Program.LerNota("3ª", validacao);
+
+                    // cria o aluno e enviar para o controller
+
+                    var aluno = new Aluno()
+                    {
+                        Nome = nome,
+                        Nota1 = nota1,
+                        Nota2 = nota2,
+                        nota3 = nota3
+                    };
+
+                    if(controller.adicionaAluno(aluno, out string mensagemErro))
+                    {
+                        Console.WriteLine($"\nAluno {aluno.Nome} cadastrado com sucesso!");
+                        Console.WriteLine($"Média: {aluno.Media:F2} - Situação: {aluno.situacao}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\nErro ao cadastrar aluno: {mensagemErro}");
+                    }
+
+                    Console.Write("Deseja cadastrar outro Aluno? (S/N)");
+
+                    if (Console.ReadLine().ToUpper() != "S") // ToUpper converte para maiúsculo
+                    {
+                        break;
+                    }
+
+                    
+                }
+                //estastísticas de aprovação
+                Console.WriteLine($"Taxa de aprovação{controller.ObterTaxaAprovacao():f2}");
+
+                Console.Write("Deseja reiniciar o sistema? (S/N)");
+
+                if (Console.ReadLine().ToUpper() != "S")
+                {
+                    break;// sai do loop principal
+                }
+            }
         }
-        public static bool PassagemParametroValor(double valor)
+
+        public static double LerNota(string nota, ValidaService validacao)
         {
-            valor = valor * 10;
-            Console.WriteLine($"Valor do método PassagemParametroValor{valor}");
-            return true;
+            while (true)
+            {
+                Console.Write($"Informe a {nota} Nota: ");
+                string entrada = Console.ReadLine();
+                //return double.Parse(entrada);
+                if(validacao.ConverteNota(entrada, out double valorNota))
+                {
+                    return valorNota;
+                }
+                else
+                {
+                    Console.WriteLine("Nota inválida! Informe uma nota entre 0 e 10 (use vírgula ou ponto para decimais).");
+                }
+            }
         }
-
-        public static bool PassagemParamentroReferenciaRef(ref double valor1)
-        { 
-        valor1= valor1 *10;
-            Console.WriteLine($"Valor do método PassagemParamentroReferenciaRef {valor1}");
-            return true;
-        }
-
-        public static bool PassagemParamentroReferenciaOut(out double valor2)
-        {
-            valor2 = 10;
-            valor2 = valor2 * 10;
-            Console.WriteLine($"Valor do método PassagemParamentroReferenciaRef {valor2}");
-            return true;
-        }
-
-        public static bool PassagemParamentroReferenciaIN(in double valor3)
-        {
-            //valor3 = 10;
-            //valor3 = valor3 * 10;
-
-            //in linha 
-            Console.WriteLine($"Valor do método PassagemParamentroReferenciaRef {valor3}");
-            return true;
-        }
-
-
     }
 }
