@@ -1,6 +1,7 @@
 ﻿using _02_CacaAobugMVC.Model;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 
+
 namespace _02_CacaAoBugMVC.Test
 {
     [TestClass]
@@ -91,7 +92,8 @@ namespace _02_CacaAoBugMVC.Test
             //Assert
             Assert.AreEqual(70.0, taxaAprovacao);
         }
-
+        
+        
 
 
 

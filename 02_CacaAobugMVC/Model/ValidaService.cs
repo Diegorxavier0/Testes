@@ -12,7 +12,9 @@ namespace _02_CacaAobugMVC.Model
     {
         //padrão
         //mínimo 3 caracteres, sem caracteres repetidos 3x seguidas, sem espaços duplos
-        private readonly string padraoNome = @"^(?!.*([A-Za-zÀ-ÖØ-öø-ÿ])\1\1)(?!.* {2,})(?=.{3,}).+$";
+        // 🔥 Corrigido para permitir somente letras e espaços!
+        private readonly string padraoNome =
+            @"^(?!.*([A-Za-zÀ-ÖØ-öø-ÿ])\1\1)(?!.* {2,})(?=.{3,})[A-Za-zÀ-ÖØ-öø-ÿ ]+$";
 
         //padrão para notas:
         //0 a 10 (aceita vírgula ou ponto)
@@ -36,7 +38,8 @@ namespace _02_CacaAobugMVC.Model
             {
                 mensagemErro = "\n\n- Mínimo 3 caracteres\n" +
                                "- Não pode ter 3 caracteres repetidos\n" +
-                               "- Não pode ter espaços duplos";
+                               "- Não pode ter espaços duplos\n" +
+                               "- Só pode conter letras e espaços";
                 return false;
             }
 

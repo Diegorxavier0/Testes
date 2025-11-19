@@ -71,7 +71,7 @@ namespace _02_CacaAobugMVC
                     
                 }
                 //estastísticas de aprovação
-                Console.WriteLine($"Taxa de aprovação{controller.ObterTaxaAprovacao():f2}");
+                Console.WriteLine($"Taxa de aprovação{controller.ObterTaxaAprovacao():f2}%");
 
                 Console.Write("Deseja reiniciar o sistema? (S/N)");
 
